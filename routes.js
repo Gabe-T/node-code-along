@@ -9,9 +9,16 @@ const movies = [
   { id: 4, title: "Over the Top", year: 1987, animated: false },
 ];
 let nextId = 5;
+
 // get /movies - respond with a JSON array of movies
 routes.get("/movies", (req, res) => {
-  res.json(movies);
+  const minYear = parseInt(req.query.minYear);
+  if (minYear) {
+    const filteredMovies = movies.filter((movie) => movie.year >= minYear);
+    res.json(filteredMovies);
+  } else {
+    res.json(movies);
+  }
 });
 
 routes.get("/movies/:id", (req, res) => {
